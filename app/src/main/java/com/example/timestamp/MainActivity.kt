@@ -1,6 +1,8 @@
 package com.example.timestamp
 
+import android.content.res.AssetManager
 import android.graphics.RectF
+import android.graphics.Typeface
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -58,7 +60,7 @@ fun GreetingPreview() {
 
 @Preview(showBackground = true)
 @Composable
-fun TestTimeStamp(){
+fun TestTimeStamp( ){
     val witdh = with(LocalDensity.current){
         300.dp.toPx()
     }.toInt()
@@ -71,18 +73,14 @@ fun TestTimeStamp(){
         this.color= Color.Gray
         style= PaintingStyle.Fill
     })
-    val path = android.graphics.Path()
-    path.addArc(RectF(witdh/2f, 100f, witdh.toFloat(), height.toFloat()), 230f, 260f)
-    c.nativeCanvas.drawTextOnPath("Phan Quang Thang",path,0f,0f,android.graphics.Paint().apply {
-        textSize=40f
-    })
-
+    val text = "2001.04.06 Mon"
+    val p = android.graphics.Paint().apply {
+        textSize=60f
+    }
+    val bound = android.graphics.Rect()
+    p.getTextBounds(text,0,text.length,bound)
+    c.nativeCanvas.drawText(text,(witdh/2-bound.width()/2f),(height/2+bound.height()/2f),p)
     Canvas(modifier = Modifier.fillMaxSize(), onDraw ={
         drawImage(bit)
-//        drawIntoCanvas {
-//            val path = android.graphics.Path()
-//            path.addArc(Rect(0f, 100f, 200f, 300f), 270f, 180f)
-//            it.nativeCanvas.drawTextOnPath("Hello World Example", path, 0f, 0f, paint)
-//        }
     } )
 }
